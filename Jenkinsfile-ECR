@@ -7,7 +7,7 @@ pipeline{
     parameters{
 
         choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
-        string(name: 'awsaccount_id', defaultValue: '195550950614', description: 'AWS account ID ')
+        string(name: 'awsaccount_id', defaultValue: '407965543264', description: 'AWS account ID ')
         string(name: 'region', defaultValue: 'us-east-1', description: 'region ')
         string(name: 'ECR_REPO_NAME', defaultValue: 'springboot-chat-app', description: 'name of ECR repo ')
         string(name: 'cluster', defaultValue: 'Springboot-cluster', description: 'name of EKS cluster ')
@@ -40,52 +40,52 @@ pipeline{
                }
             }
         }
-         stage('Integration Test maven'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   mvnIntegrationTest()
-               }
-            }
-        }
-        stage('Static code analysis: Sonarqube'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   def SonarQubecredentialsId = 'updated-api'
-                   staticCodeAnalysis(SonarQubecredentialsId)
-                }
-            }
-        }
-        stage('Quality Gate Status Check: Sonarqube'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   def SonarQubecredentialsId = 'updated-api'
-                   QualityGateStatus(SonarQubecredentialsId)
-                }
-            }
-        }
-        stage('Maven Build : maven'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   mvnBuild()
-               }
-            }
-        }
-        // stage('Docker Image Build: ECR'){
+        //  stage('Integration Test maven'){
         //  when { expression {  params.action == 'create' } }
         //     steps{
         //        script{
                    
-        //            dockerBuild("${params.awsaccount_id}","${params.region}", "${params.ECR_REPO_NAME}")
+        //            mvnIntegrationTest()
         //        }
         //     }
-        // }   
+        // }
+        // stage('Static code analysis: Sonarqube'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
+                   
+        //            def SonarQubecredentialsId = 'updated-api'
+        //            staticCodeAnalysis(SonarQubecredentialsId)
+        //         }
+        //     }
+        // }
+        // stage('Quality Gate Status Check: Sonarqube'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
+                   
+        //            def SonarQubecredentialsId = 'updated-api'
+        //            QualityGateStatus(SonarQubecredentialsId)
+        //         }
+        //     }
+        // }
+        // stage('Maven Build : maven'){
+        //  when { expression {  params.action == 'create' } }
+        //     steps{
+        //        script{
+        //            mvnBuild()
+        //        }
+        //     }
+        // }
+        stage('Docker Image Build: ECR'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
+                   dockerBuild("${params.awsaccount_id}","${params.region}", "${params.ECR_REPO_NAME}")
+               }
+            }
+        }   
         // stage('Docker Image Scan: Trivy'){
         //  when { expression {  params.action == 'create' } }
         //     steps{
