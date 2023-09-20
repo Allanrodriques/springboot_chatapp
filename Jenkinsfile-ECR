@@ -131,26 +131,29 @@ pipeline{
                 }
             }
         }
-        stage('Deploy to EKS Cluster'){
-         when { expression {  params.action == 'create' } }
-         steps{
-            script{
-                def apply = false
+        stage('Deploy to EKS Cluster') {
+            when { expression { params.action == 'create' } }
+            steps {
+                script {
+                    def apply = false
 
-                try{
-                    input message:'Please confirm deploy on eks', ok: 'Deploy?'
-                    apply = true
-                }catch(err){
-                    apply = false
-                    currentBuild.result = 'UNSTABLE'
-                }
-                if(apply){
-                    sh """
-                        kubectl apply -f deployment.yaml
+                    try {
+                        input message: 'Please confirm deploy on eks', ok: 'Deploy?'
+                        apply = true
+                    } catch(err) {
+                        apply = false
+                        currentBuild.result = 'UNSTABLE'
+                    }
+
+                    if (apply) {
+                        sh """
+                            kubectl apply -f deployment.yaml
                         """
                     }
                 }
             }
+        }
+
             stage('Destroy EKS cluster'){
             when { expression {  params.action == 'delete' } }
             steps{
