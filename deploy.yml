@@ -2,7 +2,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: java
   name: deployment-java
 spec:
   selector:
@@ -17,7 +16,7 @@ spec:
       containers:
       - image: public.ecr.aws/r1f4w1h4/springboot-chat-app:latest
         imagePullPolicy: Always
-        name: app-2048
+        name: app-java
         ports:
         - containerPort: 80
 ---
