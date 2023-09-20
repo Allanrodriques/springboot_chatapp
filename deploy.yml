@@ -13,7 +13,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: app-java
-  replicas: 5
+  replicas: 2
   template:
     metadata:
       labels:
@@ -36,27 +36,7 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
-  type: NodePort
+  type: LoadBalancer
   selector:
     app.kubernetes.io/name: app-java
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  namespace: app-java
-  name: ingress-java
-  annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-spec:
-  ingressClassName: alb
-  rules:
-    - http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: service-2048
-              port:
-                number: 80

@@ -10,7 +10,7 @@ pipeline{
         string(name: 'awsaccount_id', defaultValue: '407965543264', description: 'AWS account ID ')
         string(name: 'region', defaultValue: 'us-east-1', description: 'region ')
         string(name: 'ECR_REPO_NAME', defaultValue: 'springboot-chat-app', description: 'name of ECR repo ')
-        string(name: 'cluster', defaultValue: 'Springboot-cluster', description: 'name of EKS cluster ')
+        string(name: 'cluster', defaultValue: 'demo-cluster', description: 'name of EKS cluster ')
 
     }
     environment{
@@ -147,7 +147,7 @@ pipeline{
 
                     if (apply) {
                         sh """
-                            kubectl apply -f deployment.yaml
+                            kubectl apply -f deploy.yml
                         """
                     }
                 }
