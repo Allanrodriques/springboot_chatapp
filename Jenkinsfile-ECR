@@ -86,24 +86,24 @@ pipeline{
                }
             }
         }   
-        // stage('Docker Image Scan: Trivy'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
+        stage('Docker Image Scan: Trivy'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
                    
-        //            dockerImageScan("${params.awsaccount_id}","${params.region}", "${params.ECR_REPO_NAME}")
-        //        }
-        //     }
-        // }
-        // stage('Docker Image Push: ECR'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
+                   dockerImageScan("${params.awsaccount_id}","${params.region}", "${params.ECR_REPO_NAME}")
+               }
+            }
+        }
+        stage('Docker Image Push: ECR'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
                    
-        //            dockerImagePush("${params.awsaccount_id}","${params.region}", "${params.ECR_REPO_NAME}")
-        //        }
-        //     }
-        // }
+                   dockerImagePush("${params.awsaccount_id}","${params.region}", "${params.ECR_REPO_NAME}")
+               }
+            }
+        }
         // stage('Docker Image Cleanup: ECR'){
         //  when { expression {  params.action == 'create' } }
         //     steps{
