@@ -49,16 +49,16 @@ pipeline{
                }
             }
         }
-        // stage('Static code analysis: Sonarqube'){
-        //  when { expression {  params.action == 'create' } }
-        //     steps{
-        //        script{
+        stage('Static code analysis: Sonarqube'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
                    
-        //            def SonarQubecredentialsId = 'updated-api'
-        //            staticCodeAnalysis(SonarQubecredentialsId)
-        //         }
-        //     }
-        // }
+                   def SonarQubecredentialsId = 'updated-api'
+                   staticCodeAnalysis(SonarQubecredentialsId)
+                }
+            }
+        }
         // stage('Quality Gate Status Check: Sonarqube'){
         //  when { expression {  params.action == 'create' } }
         //     steps{
