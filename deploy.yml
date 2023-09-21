@@ -23,7 +23,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: app-java
   name: service-java
 spec:
   ports:
